@@ -181,6 +181,8 @@ def naive2_predictions(dataset_name, directory, num_obs, y_train_df = None, y_te
         y_naive2['y_hat'] = Naive2(seasonality).fit(y_id.y.to_numpy()).predict(output_size)
         y_naive2_df = y_naive2_df.append(y_naive2)
 
+    y_naive2_df['ds'] = pd.to_datetime(y_naive2_df['ds'])
+    y_naive2_df['y_hat'] = y_naive2_df['y_hat'].astype("float")
     y_naive2_df = y_test_df.merge(y_naive2_df, on=['unique_id', 'ds'], how='left')
     y_naive2_df.rename(columns={'y_hat': 'y_hat_naive2'}, inplace=True)
 
